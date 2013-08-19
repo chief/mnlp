@@ -1,6 +1,14 @@
 # Mnlp
 
-TODO: Write a gem description
+Mnlp stands for Minimalistic Natural Language Processing
+It is an effort to do some Nlp in the domain of [Skroutz](http://www.skroutz.gr)
+
+## Code & tools:
+
+* Follow [these rules](https://gist.github.com/henrik/4509394)
+* Style with [this guide](https://github.com/skroutz/ruby-style-guide)
+* Doc with [yardoc](http://yardoc.org/)
+* Spec with [rspec](http://rspec.info/)
 
 ## Installation
 
