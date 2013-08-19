@@ -5,13 +5,12 @@ module Mnlp
   module Automata
     class Fsa
 
-      attr_reader :states, :transitions, :current_state, :recognize
+      attr_reader :states, :current_state, :recognize
 
       def initialize(options = {})
         options = defaults.merge(options)
         @states      = []
         options[:states].times { add_state }
-        @transitions   = []
         @current_state = 0
         @recognize     = ""
       end
@@ -22,7 +21,11 @@ module Mnlp
       end
 
       def input_alphabet
-        transitions.map(&:symbol).to_set
+        states.map(&:alphabet).reduce(Set.new) { |a, v| a += v }
+      end
+
+      def transitions
+        states.map(&:transitions).flatten
       end
 
       def has_state?(name)
@@ -37,15 +40,15 @@ module Mnlp
         raise Automata::NoStateError if !has_state?(from) || !has_state?(to)
         from_state = find_state(from)
         to_state   = find_state(to)
-        transition = Automata::Transition.new(from_state, to_state, symbol)
-        @transitions.push transition
+
+        from_state.create_transition(to_state, symbol)
       end
 
       def transition_table
         return @_transition_table if @_transition_table
         table = {}
         states.each_with_index do |state, index|
-          state_transitions = transitions.select { |t| t.from == state }
+          state_transitions = state.transitions
           table[index] = Hash[state_transitions.map { |t| [t.symbol, states.index(t.to)] }]
         end
 
