@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Mnlp::VERSION
   spec.authors       = ["Giorgos Tsiftsis"]
   spec.email         = ["giorgos.tsiftsis@skroutz.gr"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Minimalistic Natural Language Processing}
+  spec.summary       = %q{Minimalistic Natural Language Processing}
+  spec.homepage      = "https://gitlab.skroutz.gr/mnlp/tree/master"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
