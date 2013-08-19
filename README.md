@@ -9,6 +9,7 @@ It is an effort to do some Nlp in the domain of [Skroutz](http://www.skroutz.gr)
 * Style with [this guide](https://github.com/skroutz/ruby-style-guide)
 * Doc with [yardoc](http://yardoc.org/)
 * Spec with [rspec](http://rspec.info/)
+* [Semantic versioning](http://semver.org/)
 
 ## Installation
 
