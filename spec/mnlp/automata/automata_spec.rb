@@ -6,11 +6,11 @@ describe Mnlp::Automata do
       let(:string) { "this is a very very small string chf" }
 
       let(:machine) do
-        machine = Mnlp::Automata::Fsa.new(states: 4)
+        machine = Mnlp::Automata::Fsa.new(number_of_states: 4)
 
-        machine.add_transition "q0", "q1", "c"
-        machine.add_transition "q1", "q2", "h"
-        machine.add_transition "q2", "q3", "f"
+        machine.create_transition "q0", "q1", "c"
+        machine.create_transition "q1", "q2", "h"
+        machine.create_transition "q2", "q3", "f"
 
         machine
       end

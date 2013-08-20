@@ -7,20 +7,24 @@ module Mnlp
 
       attr_reader :states, :current_state, :recognize
 
+      # @param options [Hash] initialization options
+      # @option options [Fixnum] :number_of_states The initial number of states
       def initialize(options = {})
         options = defaults.merge(options)
         @states      = []
-        options[:states].times { add_state }
+        options[:number_of_states].times { add_state }
         @current_state = 0
+
+        # @todo Remove this attribute
         @recognize     = ""
       end
 
-      def add_state(options = {})
-        state   = Automata::State.new(size: states.size)
+      def add_state
+        state = State.new(size: states.size)
         @states.push state
       end
 
-      def input_alphabet
+      def alphabet
         states.map(&:alphabet).reduce(Set.new) { |a, v| a += v }
       end
 
@@ -29,15 +33,15 @@ module Mnlp
       end
 
       def has_state?(name)
-        states.map(&:name).include? name
+        find_state(name).present?
       end
 
       def find_state(name)
         states.select { |s| s.name == name }.first
       end
 
-      def add_transition(from, to, symbol)
-        raise Automata::NoStateError if !has_state?(from) || !has_state?(to)
+      def create_transition(from, to, symbol)
+        raise NoStateError if !has_state?(from) || !has_state?(to)
         from_state = find_state(from)
         to_state   = find_state(to)
 
@@ -55,12 +59,8 @@ module Mnlp
         @_transition_table = table
       end
 
-      def final_state?(index)
-        transition_table[index].empty?
-      end
-
       def recognize!(symbol)
-        if input_alphabet.include?(symbol) && transition_table[current_state].keys.include?(symbol)
+        if alphabet.include?(symbol) && transition_table[current_state].keys.include?(symbol)
           @current_state = transition_table[current_state][symbol]
           if final_state?(current_state)
             #puts "RECOGNIZE #@recognition"
@@ -74,14 +74,10 @@ module Mnlp
         @recognize = false
       end
 
-      def first_symbol
-        input_alphabet.first
-      end
-
       private
 
       def defaults
-        { states: 1 }
+        { number_of_states: 1 }
       end
     end
   end

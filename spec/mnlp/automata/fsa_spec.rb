@@ -15,14 +15,14 @@ describe Mnlp::Automata::Fsa do
     end
 
     it "does not have input alphabet" do
-      subject.input_alphabet.should be_empty
+      subject.alphabet.should be_empty
     end
   end
 
   describe "#initialize" do
     context "when passing a number of states" do
       it "has states equals to the number passed" do
-        machine = Mnlp::Automata::Fsa.new(states: 10)
+        machine = Mnlp::Automata::Fsa.new(number_of_states: 10)
         machine.should have(10).states
       end
     end
@@ -45,14 +45,14 @@ describe Mnlp::Automata::Fsa do
     before do
       4.times { subject.add_state }
 
-      subject.add_transition "q0", "q1", "b"
-      subject.add_transition "q1", "q2", "l"
-      subject.add_transition "q2", "q3", "o"
-      subject.add_transition "q3", "q4", "b"
+      subject.create_transition "q0", "q1", "b"
+      subject.create_transition "q1", "q2", "l"
+      subject.create_transition "q2", "q3", "o"
+      subject.create_transition "q3", "q4", "b"
     end
 
     it "has an input alphabet" do
-      subject.input_alphabet.should == Set.new(["b", "l", "o"])
+      subject.alphabet.should == Set.new(["b", "l", "o"])
     end
   end
 
@@ -77,18 +77,18 @@ describe Mnlp::Automata::Fsa do
 
     context "and from state does not exist" do
       it "raises error" do
-        expect { subject.add_transition("q10", "q1", "T") }.to raise_error(Mnlp::Automata::NoStateError)
+        expect { subject.create_transition("q10", "q1", "T") }.to raise_error(Mnlp::Automata::NoStateError)
       end
     end
 
     context "and to state does not exist" do
       it "raises error" do
-        expect { subject.add_transition("q0", "q10", "T") }.to raise_error(Mnlp::Automata::NoStateError)
+        expect { subject.create_transition("q0", "q10", "T") }.to raise_error(Mnlp::Automata::NoStateError)
       end
     end
 
     it "adds a new transition" do
-      subject.add_transition "q0", "q1", "a"
+      subject.create_transition "q0", "q1", "a"
       subject.transitions.should_not be_empty
     end
   end
@@ -97,10 +97,10 @@ describe Mnlp::Automata::Fsa do
     before do
       3.times { subject.add_state }
 
-      subject.add_transition "q0", "q1", "b"
-      subject.add_transition "q1", "q2", "a"
-      subject.add_transition "q2", "q2", "a"
-      subject.add_transition "q2", "q3", "!"
+      subject.create_transition "q0", "q1", "b"
+      subject.create_transition "q1", "q2", "a"
+      subject.create_transition "q2", "q2", "a"
+      subject.create_transition "q2", "q3", "!"
     end
 
     it "has a transition table" do
@@ -123,8 +123,8 @@ describe Mnlp::Automata::Fsa do
     before do
       2.times { subject.add_state }
 
-      subject.add_transition "q0", "q1", "c"
-      subject.add_transition "q1", "q2", "h"
+      subject.create_transition "q0", "q1", "c"
+      subject.create_transition "q1", "q2", "h"
     end
 
     context "when a symbol is correct for the current_state" do
@@ -155,8 +155,8 @@ describe Mnlp::Automata::Fsa do
     before do
       2.times { subject.add_state }
 
-      subject.add_transition "q0", "q1", "c"
-      subject.add_transition "q1", "q2", "h"
+      subject.create_transition "q0", "q1", "c"
+      subject.create_transition "q1", "q2", "h"
     end
 
     it "has 2 states that are not final states" do
@@ -167,14 +167,4 @@ describe Mnlp::Automata::Fsa do
     end
   end
 
-  describe "#first_symbol" do
-    before do
-      subject.add_state
-      subject.add_transition "q0", "q1", "f"
-    end
-
-    it "gets first symbol of the alphabet" do
-      subject.first_symbol.should == "f"
-    end
-  end
 end
