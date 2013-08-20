@@ -20,8 +20,7 @@ module Mnlp
       end
 
       def add_state
-        state = State.new(size: states.size)
-        @states.push state
+        @states.push State.new(size: states.size)
       end
 
       def alphabet
