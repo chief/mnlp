@@ -84,7 +84,7 @@ describe Mnlp::Automata::Fsa do
     end
   end
 
-  describe "#transition_table" do
+  describe "#state_transition_table" do
     before do
       3.times { subject.add_state }
 
@@ -94,8 +94,8 @@ describe Mnlp::Automata::Fsa do
       subject.create_transition "q2", "q3", "!"
     end
 
-    it "has a transition table" do
-      subject.transition_table.should ==
+    it "has a state transition table" do
+      subject.state_transition_table.should ==
          { 0 => {"b"=>1},
            1 => {"a"=>2},
            2 => {"a"=>2, "!"=>3},

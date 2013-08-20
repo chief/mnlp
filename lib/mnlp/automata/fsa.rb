@@ -44,20 +44,20 @@ module Mnlp
       end
 
       # @todo Move logic to State class
-      def transition_table
-        return @_transition_table if @_transition_table
+      def state_transition_table
+        return @_state_transition_table if @_state_transition_table
         table = {}
         states.each_with_index do |state, index|
           table[index] = Hash[state.transitions.map { |t| [t.symbol, states.index(t.to)] }]
         end
 
-        @_transition_table = table
+        @_state_transition_table = table
       end
 
       # @todo Move some logic to State class
       def recognize!(symbol)
-        if alphabet.include?(symbol) && transition_table[current_state].keys.include?(symbol)
-          @current_state = transition_table[current_state][symbol]
+        if alphabet.include?(symbol) && state_transition_table[current_state].keys.include?(symbol)
+          @current_state = state_transition_table[current_state][symbol]
           if states[current_state].final_state?
             #puts "RECOGNIZE #@recognition"
             @recognize = true
