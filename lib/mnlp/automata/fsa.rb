@@ -47,17 +47,18 @@ module Mnlp
         from_state.create_transition(to_state, symbol)
       end
 
+      # @todo Move logic to State class
       def transition_table
         return @_transition_table if @_transition_table
         table = {}
         states.each_with_index do |state, index|
-          state_transitions = state.transitions
-          table[index] = Hash[state_transitions.map { |t| [t.symbol, states.index(t.to)] }]
+          table[index] = Hash[state.transitions.map { |t| [t.symbol, states.index(t.to)] }]
         end
 
         @_transition_table = table
       end
 
+      # @todo Move some logic to State class
       def recognize!(symbol)
         if alphabet.include?(symbol) && transition_table[current_state].keys.include?(symbol)
           @current_state = transition_table[current_state][symbol]
