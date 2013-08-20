@@ -27,10 +27,6 @@ module Mnlp
         states.map(&:alphabet).reduce(Set.new) { |a, v| a += v }
       end
 
-      def transitions
-        states.map(&:transitions).flatten
-      end
-
       def has_state?(name)
         find_state(name).present?
       end

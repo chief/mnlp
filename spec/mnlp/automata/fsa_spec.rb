@@ -10,10 +10,6 @@ describe Mnlp::Automata::Fsa do
       subject.current_state.should == 0
     end
 
-    it "does not have transitions" do
-      subject.transitions.should be_empty
-    end
-
     it "does not have input alphabet" do
       subject.alphabet.should be_empty
     end
@@ -85,11 +81,6 @@ describe Mnlp::Automata::Fsa do
       it "raises error" do
         expect { subject.create_transition("q0", "q10", "T") }.to raise_error(Mnlp::Automata::NoStateError)
       end
-    end
-
-    it "adds a new transition" do
-      subject.create_transition "q0", "q1", "a"
-      subject.transitions.should_not be_empty
     end
   end
 
