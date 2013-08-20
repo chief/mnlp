@@ -62,7 +62,7 @@ module Mnlp
       def recognize!(symbol)
         if alphabet.include?(symbol) && transition_table[current_state].keys.include?(symbol)
           @current_state = transition_table[current_state][symbol]
-          if final_state?(current_state)
+          if states[current_state].final_state?
             #puts "RECOGNIZE #@recognition"
             @recognize = true
             return

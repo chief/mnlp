@@ -151,20 +151,4 @@ describe Mnlp::Automata::Fsa do
     end
   end
 
-  describe "#final_state?" do
-    before do
-      2.times { subject.add_state }
-
-      subject.create_transition "q0", "q1", "c"
-      subject.create_transition "q1", "q2", "h"
-    end
-
-    it "has 2 states that are not final states" do
-      subject.final_state?(0).should be_false
-      subject.final_state?(1).should be_false
-      subject.final_state?(2).should be_true
-
-    end
-  end
-
 end

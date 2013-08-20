@@ -20,6 +20,10 @@ module Mnlp
         transitions.map(&:symbol).to_set
       end
 
+      def final_state?
+        transitions.empty?
+      end
+
       private
 
       def default_name(size)
