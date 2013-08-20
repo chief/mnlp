@@ -23,16 +23,22 @@ module Mnlp
         @states.push State.new(suffix: states.size)
       end
 
+      # Gets machine alphabet from each state's transitions
+      # @return [Set] the alphabet recognized by the machine
       def alphabet
         states.map(&:alphabet).reduce(Set.new) { |a, v| a += v }
       end
 
-      def has_state?(name)
-        find_state(name).present?
-      end
-
+      # Finds a state by its name
+      # @param name [String] the name of the state
+      # @return [Automata::State] the state or nil
       def find_state(name)
         states.select { |state| state.name == name }.first
+      end
+
+      # @see #find_state
+      def has_state?(name)
+        find_state(name).present?
       end
 
       def create_transition(from, to, symbol)

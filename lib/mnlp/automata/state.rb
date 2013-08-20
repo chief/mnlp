@@ -6,7 +6,7 @@ module Mnlp
 
       attr_reader :name, :transitions
 
-      # @params options [Hash] initialization options
+      # @param options [Hash] initialization options
       # @option options [Fixnum] :suffix the suffix of state's name
       # @option options [String] :name or the whole name of the state
       def initialize(options = {})

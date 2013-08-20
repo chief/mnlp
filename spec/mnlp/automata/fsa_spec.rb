@@ -62,7 +62,7 @@ describe Mnlp::Automata::Fsa do
     end
 
     it "does not find a non-existing state" do
-      subject.should_not have_state("q2")
+      subject.should_not have_state("not-existing")
     end
   end
 
