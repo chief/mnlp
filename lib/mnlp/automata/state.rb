@@ -12,8 +12,7 @@ module Mnlp
       end
 
       def create_transition(state, symbol)
-        transition = Automata::Transition.new(state, symbol)
-        @transitions.push transition
+        @transitions.push Automata::Transition.new(state, symbol)
       end
 
       def alphabet
