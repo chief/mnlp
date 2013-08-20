@@ -36,7 +36,7 @@ module Mnlp
       end
 
       def find_state(name)
-        states.select { |s| s.name == name }.first
+        states.select { |state| state.name == name }.first
       end
 
       def create_transition(from, to, symbol)
