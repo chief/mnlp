@@ -15,8 +15,11 @@ module Mnlp
         @transitions = []
       end
 
+      # Creates a new transition
+      # @param state [Automata::State] the state to move to
+      # @param symbol [String] the symbol to trigger the move
       def create_transition(state, symbol)
-        @transitions.push Transition.new(state, symbol)
+        @transitions << Transition.new(state, symbol)
       end
 
       def alphabet
