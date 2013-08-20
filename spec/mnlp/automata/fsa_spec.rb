@@ -150,5 +150,4 @@ describe Mnlp::Automata::Fsa do
       end
     end
   end
-
 end
