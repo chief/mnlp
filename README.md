@@ -11,6 +11,7 @@ It is an effort to do some Nlp in the domain of [Skroutz](http://www.skroutz.gr)
 * Spec with [rspec](http://rspec.info/)
 * [Semantic versioning](http://semver.org/)
 * Sadist with [flog, flay & heckle](http://ruby.sadi.st/)
+* Use [simplecov](https://github.com/colszowka/simplecov)
 
 ## Installation
 
