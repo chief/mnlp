@@ -51,7 +51,7 @@ describe Mnlp::Automata::Fsa do
       subject.create_transition "q3", "q4", "b"
     end
 
-    it "has an input alphabet" do
+    it "has valid alphabet" do
       subject.alphabet.should == Set.new(["b", "l", "o"])
     end
   end
