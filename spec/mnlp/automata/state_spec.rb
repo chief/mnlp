@@ -16,4 +16,18 @@ describe Mnlp::Automata::State do
       end
     end
   end
+
+  describe "#create_transition" do
+    let(:another_state) { Mnlp::Automata::State.new }
+
+    it "creates a new transition" do
+      subject.create_transition(another_state, "A")
+      subject.should have(1).transitions
+    end
+
+    it "creates transition with self" do
+      subject.create_transition(subject, "A")
+      subject.should have(1).transitions
+    end
+  end
 end
