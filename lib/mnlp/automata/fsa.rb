@@ -58,13 +58,12 @@ module Mnlp
 
       # @todo Move logic to State class
       def state_transition_table
-        return @_state_transition_table if @_state_transition_table
         table = {}
         states.each_with_index do |state, index|
           table[index] = Hash[state.transitions.map { |t| [t.symbol, states.index(t.to)] }]
         end
 
-        @_state_transition_table = table
+        table
       end
 
       # @todo Move some logic to State class
