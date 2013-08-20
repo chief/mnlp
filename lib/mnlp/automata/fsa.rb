@@ -8,7 +8,8 @@ module Mnlp
       attr_reader :states, :current_state, :recognize
 
       # @param options [Hash] initialization options
-      # @option options [Fixnum] :number_of_states The initial number of states
+      # @option options [Fixnum] :number_of_states The initial number of states.
+      #   Additions (beyond initial number) can be made through #add_state
       def initialize(options = {})
         options = defaults.merge(options)
         @states      = []
@@ -20,10 +21,10 @@ module Mnlp
       end
 
       def add_state
-        @states.push State.new(suffix: states.size)
+        @states << State.new(suffix: states.size)
       end
 
-      # Gets machine alphabet from each state's transitions
+      # Gets machine alphabet from each state's alphabet
       # @return [Set] the alphabet recognized by the machine
       def alphabet
         states.map(&:alphabet).reduce(Set.new) { |a, v| a += v }
@@ -37,10 +38,16 @@ module Mnlp
       end
 
       # @see #find_state
+      # @return [Boolean]
       def has_state?(name)
         find_state(name).present?
       end
 
+      # Delegates transition creation to {Automata::State} class
+      # @param from [String] the name of from state
+      # @param to [String] the name of to state
+      # @param symbol [String] the symbol of transition
+      # @return [Array] from state's transitions
       def create_transition(from, to, symbol)
         raise NoStateError if !has_state?(from) || !has_state?(to)
         from_state = find_state(from)
