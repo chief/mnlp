@@ -30,4 +30,19 @@ describe Mnlp::Automata::State do
       subject.should have(1).transitions
     end
   end
+
+  describe "#alphabet" do
+    let(:another_state) { Mnlp::Automata::State.new }
+
+    before do
+      subject.create_transition another_state, "A"
+      subject.create_transition another_state, "B"
+      subject.create_transition another_state, "C"
+    end
+
+    it "has an alphabet based on transitions' symbols" do
+      subject.alphabet.should be
+      subject.alphabet.should == Set.new(["A", "B", "C"])
+    end
+  end
 end
