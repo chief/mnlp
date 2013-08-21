@@ -9,10 +9,10 @@ describe Mnlp::Automata::State do
     end
   end
 
-  describe "#final_state?" do
+  describe "#accept_state?" do
     context "when state has no transitions" do
-      it "is a final state" do
-        subject.should be_final_state
+      it "is an accept state" do
+        subject.should be_accept_state
       end
     end
   end

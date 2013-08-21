@@ -6,7 +6,7 @@ module Mnlp
 
       attr_reader :name, :transitions
 
-      # @param options [Hash] initialization options
+      # @param  options [Hash] initialization options
       # @option options [Fixnum] :suffix the suffix of state's name
       # @option options [String] :name or the whole name of the state
       def initialize(options = {})
@@ -26,8 +26,7 @@ module Mnlp
         transitions.map(&:symbol).to_set
       end
 
-      # @todo Think about this method name
-      def final_state?
+      def accept_state?
         transitions.empty?
       end
 
