@@ -11,17 +11,18 @@ module Mnlp
       # @option options [String] :name or the whole name of the state
       def initialize(options = {})
         suffix  = options[:suffix] || 0
-        @name   = options[:name] || default_name(suffix)
+        @name   = set_name(options[:name], suffix)
         @transitions = []
       end
 
       # Creates a new transition
-      # @param state [Automata::State] the state to move to
+      # @param state  [Automata::State] the state to move to
       # @param symbol [String] the symbol to trigger the move
       def create_transition(state, symbol)
         @transitions << Transition.new(state, symbol)
       end
 
+      # @return [Set] state's alphabet
       def alphabet
         transitions.map(&:symbol).to_set
       end
@@ -31,6 +32,10 @@ module Mnlp
       end
 
       private
+
+      def set_name(name, suffix)
+        name.present? ? name : default_name(suffix)
+      end
 
       def default_name(suffix)
         "q#{suffix}"

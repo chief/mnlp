@@ -1,11 +1,38 @@
 require 'spec_helper'
 
 describe Mnlp::Automata::State do
-  context "when nothing is passed in #initialize" do
-    subject { Mnlp::Automata::State.new }
 
-    it "gives a default name" do
-      subject.name.should == "q0"
+  describe "#initialize" do
+    context "when nothing is passed" do
+      subject { Mnlp::Automata::State.new }
+
+      it "gives a default name" do
+        subject.name.should == "q0"
+      end
+    end
+
+    context "when name passed" do
+      subject { Mnlp::Automata::State.new name: "test" }
+
+      it "has the name passed as param" do
+        subject.name.should == "test"
+      end
+    end
+
+    context "when suffix passed" do
+      subject { Mnlp::Automata::State.new suffix: 1 }
+
+      it "has default name with suffix" do
+        subject.name.should == "q" + "1"
+      end
+    end
+
+    context "when suffix & name passed" do
+      subject { Mnlp::Automata::State.new suffix: 1, name: "test" }
+
+      it "has the only the name passed as param" do
+        subject.name.should == "test"
+      end
     end
   end
 
