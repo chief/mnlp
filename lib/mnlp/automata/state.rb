@@ -19,7 +19,10 @@ module Mnlp
       # @param state  [Automata::State] the state to move to
       # @param symbol [String] the symbol to trigger the move
       def create_transition(state, symbol)
-        @transitions << Transition.new(state, symbol)
+        transition = Transition.new(state, symbol)
+        raise DuplicateTransitionError if transitions.include? transition
+
+        @transitions << transition
       end
 
       # @return [Set] state's alphabet

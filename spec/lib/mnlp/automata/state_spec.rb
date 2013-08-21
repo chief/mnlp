@@ -47,14 +47,23 @@ describe Mnlp::Automata::State do
   describe "#create_transition" do
     let(:another_state) { Mnlp::Automata::State.new }
 
-    it "creates a new transition" do
+    before do
       subject.create_transition(another_state, "A")
+    end
+
+    it "creates a new transition" do
       subject.should have(1).transitions
     end
 
     it "creates transition with self" do
-      subject.create_transition(subject, "A")
       subject.should have(1).transitions
+    end
+
+    context "when exactly the same transition occurs" do
+      it "raises DuplicateTransitionError" do
+        expect { subject.create_transition(another_state, "A") }.
+          to raise_error(Mnlp::Automata::DuplicateTransitionError)
+      end
     end
   end
 

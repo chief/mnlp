@@ -3,6 +3,7 @@
 require "mnlp/automata/fsa"
 require "mnlp/automata/state"
 require "mnlp/automata/exceptions/no_state_error"
+require "mnlp/automata/exceptions/duplicate_transition_error"
 require "mnlp/automata/state"
 require "mnlp/automata/transition"
 
