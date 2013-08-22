@@ -30,7 +30,7 @@ module Mnlp
         transitions.map(&:symbol).to_set
       end
 
-      def accept_state?
+      def final?
         transitions.empty?
       end
 

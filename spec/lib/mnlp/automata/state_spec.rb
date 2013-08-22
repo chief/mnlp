@@ -1,11 +1,10 @@
 require 'spec_helper'
 
 describe Mnlp::Automata::State do
+  let(:another_state) { Mnlp::Automata::State.new }
 
   describe "#initialize" do
     context "when nothing is passed" do
-      subject { Mnlp::Automata::State.new }
-
       it "gives a default name" do
         expect(subject.name).to eq "q0"
       end
@@ -36,17 +35,25 @@ describe Mnlp::Automata::State do
     end
   end
 
-  describe "#accept_state?" do
+  describe "#final?" do
     context "when state has no transitions" do
-      it "is an accept state" do
-        expect(subject).to be_accept_state
+      it "is an final state" do
+        expect(subject).to be_final
+      end
+    end
+
+    context "when state has transitions" do
+      before do
+        create_transitions
+      end
+
+      it "is not a final state" do
+        expect(subject).not_to be_final
       end
     end
   end
 
   describe "#create_transition" do
-    let(:another_state) { Mnlp::Automata::State.new }
-
     before do
       subject.create_transition(another_state, "A")
     end
@@ -68,17 +75,28 @@ describe Mnlp::Automata::State do
   end
 
   describe "#alphabet" do
-    let(:another_state) { Mnlp::Automata::State.new }
-
     before do
-      subject.create_transition another_state, "A"
-      subject.create_transition another_state, "B"
-      subject.create_transition another_state, "C"
+      create_transitions
     end
 
     it "has an alphabet based on transitions' symbols" do
       expect(subject.alphabet).to be
       expect(subject.alphabet).to eq Set.new(["A", "B", "C"])
     end
+  end
+
+  describe "#transition_table" do
+    before do
+      create_transitions
+    end
+
+
+  end
+
+  # Helper methods
+  def create_transitions
+    subject.create_transition another_state, "A"
+    subject.create_transition another_state, "B"
+    subject.create_transition another_state, "C"
   end
 end
