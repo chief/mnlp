@@ -7,7 +7,7 @@ describe Mnlp::Automata::State do
       subject { Mnlp::Automata::State.new }
 
       it "gives a default name" do
-        subject.name.should == "q0"
+        expect(subject.name).to eq "q0"
       end
     end
 
@@ -15,7 +15,7 @@ describe Mnlp::Automata::State do
       subject { Mnlp::Automata::State.new name: "test" }
 
       it "has the name passed as param" do
-        subject.name.should == "test"
+        expect(subject.name).to eq "test"
       end
     end
 
@@ -23,7 +23,7 @@ describe Mnlp::Automata::State do
       subject { Mnlp::Automata::State.new suffix: 1 }
 
       it "has default name with suffix" do
-        subject.name.should == "q" + "1"
+        expect(subject.name).to eq "q" + "1"
       end
     end
 
@@ -31,7 +31,7 @@ describe Mnlp::Automata::State do
       subject { Mnlp::Automata::State.new suffix: 1, name: "test" }
 
       it "has the only the name passed as param" do
-        subject.name.should == "test"
+        expect(subject.name).to eq "test"
       end
     end
   end
@@ -39,7 +39,7 @@ describe Mnlp::Automata::State do
   describe "#accept_state?" do
     context "when state has no transitions" do
       it "is an accept state" do
-        subject.should be_accept_state
+        expect(subject).to be_accept_state
       end
     end
   end
@@ -52,11 +52,11 @@ describe Mnlp::Automata::State do
     end
 
     it "creates a new transition" do
-      subject.should have(1).transitions
+      expect(subject).to have(1).transitions
     end
 
     it "creates transition with self" do
-      subject.should have(1).transitions
+      expect(subject).to have(1).transitions
     end
 
     context "when exactly the same transition occurs" do
@@ -77,8 +77,8 @@ describe Mnlp::Automata::State do
     end
 
     it "has an alphabet based on transitions' symbols" do
-      subject.alphabet.should be
-      subject.alphabet.should == Set.new(["A", "B", "C"])
+      expect(subject.alphabet).to be
+      expect(subject.alphabet).to eq Set.new(["A", "B", "C"])
     end
   end
 end

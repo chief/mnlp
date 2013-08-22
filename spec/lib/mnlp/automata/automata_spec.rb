@@ -16,7 +16,7 @@ describe Mnlp::Automata do
       end
 
       it "applies a machine to a string" do
-        subject.recognize(string, machine).should be_true
+        expect(subject.recognize(string, machine)).to be_true
       end
     end
   end
