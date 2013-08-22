@@ -23,13 +23,15 @@ describe Mnlp::Automata::Fsa do
   end
 
   describe "#add_state" do
-    it "adds a new state" do
+    before do
       subject.add_state
+    end
+
+    it "adds a new state" do
       expect(subject.states.size).to eq 1 + 1
     end
 
     it "has states with default names" do
-      subject.add_state
       expect(subject.states.first.name).to eq "q0"
       expect(subject.states.last.name).to eq "q1"
     end
