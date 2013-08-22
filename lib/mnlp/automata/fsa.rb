@@ -9,7 +9,7 @@ module Mnlp
 
       # @param options [Hash] initialization options
       # @option options [Fixnum] :number_of_states The initial number of states.
-      #   Additions (beyond initial number) can be made through #add_state
+      #   Additions (beyond initial number) can be made through {#add_state}
       def initialize(options = {})
         options = defaults.merge(options)
         @states      = []
