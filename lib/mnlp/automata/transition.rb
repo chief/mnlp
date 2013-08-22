@@ -1,2 +1,2 @@
-class Mnlp::Automata::Transition < Struct.new(:to, :symbol)
+class Mnlp::Automata::Transition < Struct.new(:state, :symbol)
 end
