@@ -98,7 +98,11 @@ describe Mnlp::Automata::State do
       create_transitions
     end
 
-
+    it "has a valid transition_table" do
+      expect(subject.transition_table).to eq(
+          {"A"=>1, "B"=>1, "C"=>1}
+        )
+    end
   end
 
   # Helper methods

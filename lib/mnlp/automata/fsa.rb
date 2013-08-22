@@ -56,14 +56,11 @@ module Mnlp
         from_state.create_transition(to_state, symbol)
       end
 
-      # @todo Move logic to State class
       def state_transition_table
-        table = {}
-        states.each_with_index do |state, index|
-          table[index] = Hash[state.transitions.map { |t| [t.symbol, states.index(t.to)] }]
+        states.reduce({}) do |result, state|
+          result[state.id] = state.transition_table
+          result
         end
-
-        table
       end
 
       # @todo Move some logic to State class

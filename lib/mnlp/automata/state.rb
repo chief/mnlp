@@ -35,14 +35,21 @@ module Mnlp
         transitions.empty?
       end
 
-      private
-
-      def set_name(name, suffix)
-        name.present? ? name : default_name(suffix)
+      def transition_table
+        transitions.reduce({}) do |acc, val|
+          acc[val.symbol] = val.state.id
+          acc
+        end
       end
 
-      def default_name(suffix)
-        "q#{suffix}"
+      private
+
+      def set_name(name)
+        name.present? ? name : default_name
+      end
+
+      def default_name
+        "q" + id.to_s
       end
     end
   end
