@@ -4,14 +4,15 @@ module Mnlp
   module Automata
     class State
 
-      attr_reader :name, :transitions
+      attr_reader :name, :transitions, :id
 
       # @param  options [Hash] initialization options
-      # @option options [Fixnum] :suffix the suffix of state's name
+      # @option options [Fixnum] :id the id of state. Current implementation of
+      #   id is actually the size of {Fsa} states.
       # @option options [String] :name or the whole name of the state
       def initialize(options = {})
-        suffix  = options[:suffix] || 0
-        @name   = set_name(options[:name], suffix)
+        @id     = options[:id] || 0
+        @name   = set_name(options[:name])
         @transitions = []
       end
 

@@ -1,12 +1,16 @@
 require 'spec_helper'
 
 describe Mnlp::Automata::State do
-  let(:another_state) { Mnlp::Automata::State.new }
+  let(:another_state) { Mnlp::Automata::State.new(id: 1) }
 
   describe "#initialize" do
     context "when nothing is passed" do
-      it "gives a default name" do
+      it "has a default name" do
         expect(subject.name).to eq "q0"
+      end
+
+      it "has the default 0 id" do
+        expect(subject.id).to eq 0
       end
     end
 
@@ -16,10 +20,14 @@ describe Mnlp::Automata::State do
       it "has the name passed as param" do
         expect(subject.name).to eq "test"
       end
+
+      it "has the default 0 id" do
+        expect(subject.id).to eq 0
+      end
     end
 
-    context "when suffix passed" do
-      subject { Mnlp::Automata::State.new suffix: 1 }
+    context "when id passed" do
+      subject { Mnlp::Automata::State.new id: 1 }
 
       it "has default name with suffix" do
         expect(subject.name).to eq "q" + "1"
@@ -27,7 +35,7 @@ describe Mnlp::Automata::State do
     end
 
     context "when suffix & name passed" do
-      subject { Mnlp::Automata::State.new suffix: 1, name: "test" }
+      subject { Mnlp::Automata::State.new id: 2, name: "test" }
 
       it "has the only the name passed as param" do
         expect(subject.name).to eq "test"

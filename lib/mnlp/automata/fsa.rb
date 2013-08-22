@@ -21,7 +21,7 @@ module Mnlp
       end
 
       def add_state
-        @states << State.new(suffix: states.size)
+        @states << State.new(id: states.size)
       end
 
       # Gets machine alphabet from each state's alphabet
