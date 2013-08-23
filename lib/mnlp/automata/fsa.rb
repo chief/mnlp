@@ -20,6 +20,8 @@ module Mnlp
         @recognize     = ""
       end
 
+      # Adds a new {State}. At the moment there is no way to delete states from
+      #   the machine.
       def add_state
         @states << State.new(id: states.size)
       end
@@ -32,7 +34,7 @@ module Mnlp
 
       # Finds a state by its name
       # @param name_or_id [String, Fixnum] the name or id of the state
-      # @return [Automata::State] the state or nil
+      # @return [Automata::State] or nil
       def find_state(name_or_id)
         states.select { |s| s.name == name_or_id || s.id == name_or_id }.first
       end
@@ -63,7 +65,6 @@ module Mnlp
         end
       end
 
-      # @todo Move some logic to State class
       def recognize!(symbol)
         if state_id = current_state.transit(symbol)
           @current_state = find_state(state_id)
