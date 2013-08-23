@@ -66,7 +66,7 @@ module Mnlp
       end
 
       def recognize!(symbol)
-        set_or_rollback_state(symbol)
+        set_or_rollback_current_state(symbol)
 
         if current_state.final?
           @recognize = true
@@ -78,7 +78,7 @@ module Mnlp
 
       private
 
-      def set_or_rollback_state(symbol)
+      def set_or_rollback_current_state(symbol)
         @current_state =
           if state_id = current_state.transit(symbol)
             find_state(state_id)
