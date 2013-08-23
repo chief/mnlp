@@ -126,7 +126,7 @@ describe Mnlp::Automata::Fsa do
     context "when a symbol is correct for the current_state" do
       it "proceeds to next state" do
         subject.recognize!("c")
-        expect(subject.current_state).to eq 1
+        expect(subject.current_state.id).to eq 1
       end
     end
 
@@ -134,7 +134,7 @@ describe Mnlp::Automata::Fsa do
       it "finishes recognition for a 3 state automaton" do
         subject.recognize!("c")
         subject.recognize!("h")
-        expect(subject.current_state).to eq 2
+        expect(subject.current_state.id).to eq 2
       end
     end
 
@@ -142,7 +142,7 @@ describe Mnlp::Automata::Fsa do
       it "reverts to q0 state" do
         subject.recognize!("c")
         subject.recognize!("d")
-        expect(subject.current_state).to eq 0
+        expect(subject.current_state.id).to eq 0
       end
     end
   end
