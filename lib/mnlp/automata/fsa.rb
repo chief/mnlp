@@ -31,16 +31,16 @@ module Mnlp
       end
 
       # Finds a state by its name
-      # @param name [String] the name of the state
+      # @param name_or_id [String, Fixnum] the name or id of the state
       # @return [Automata::State] the state or nil
-      def find_state(name)
-        states.select { |state| state.name == name }.first
+      def find_state(name_or_id)
+        states.select { |s| s.name == name_or_id || s.id == name_or_id }.first
       end
 
       # @see #find_state
       # @return [Boolean]
-      def has_state?(name)
-        find_state(name).present?
+      def has_state?(name_or_id)
+        find_state(name_or_id).present?
       end
 
       # Delegates transition creation to {Automata::State} class
