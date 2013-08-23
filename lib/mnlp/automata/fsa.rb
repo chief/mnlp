@@ -68,7 +68,6 @@ module Mnlp
         if state_id = current_state.transit(symbol)
           @current_state = find_state(state_id)
           if current_state.final?
-            #puts "RECOGNIZE #@recognition"
             @recognize = true
             return
           end
