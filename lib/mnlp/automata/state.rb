@@ -46,6 +46,10 @@ module Mnlp
         alphabet.include? symbol
       end
 
+      def transit(symbol)
+        transition_table[symbol]
+      end
+
       private
 
       def set_name(name)

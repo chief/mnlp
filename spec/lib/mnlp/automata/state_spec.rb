@@ -123,6 +123,24 @@ describe Mnlp::Automata::State do
     end
   end
 
+  describe "#transit" do
+    before do
+      create_transitions
+    end
+
+    context "when transition is valid" do
+      it "returns the transition state id" do
+        expect(subject.transit("A")).to eq another_state.id
+      end
+    end
+
+    context "when transition is invalid" do
+      it "returns nil" do
+        expect(subject.transit("X")).not_to be
+      end
+    end
+  end
+
   # Helper methods
   def create_transitions
     subject.create_transition another_state, "A"
