@@ -7,7 +7,7 @@ module Mnlp
 
       attr_reader :states, :current_state, :recognize
 
-      # @param options [Hash] initialization options
+      # @param options [Hash]
       # @option options [Fixnum] :number_of_states The initial number of states.
       #   Additions (beyond initial number) can be made through {#add_state}
       def initialize(options = {})
@@ -21,7 +21,7 @@ module Mnlp
       end
 
       # Adds a new {State}. At the moment there is no way to delete states from
-      #   the machine.
+      # the machine.
       def add_state
         @states << State.new(id: states.size)
       end
@@ -32,7 +32,7 @@ module Mnlp
         states.map(&:alphabet).reduce(Set.new) { |a, v| a += v }
       end
 
-      # Finds a state by its name
+      # Finds a state by its name or id
       # @param name_or_id [String, Fixnum] the name or id of the state
       # @return [Automata::State] or nil
       def find_state(name_or_id)
@@ -46,12 +46,12 @@ module Mnlp
       end
 
       # Delegates transition creation to {Automata::State} class
-      # @param from [String] the name of from state
-      # @param to [String] the name of to state
+      # @param from [String, Fixnum] the name or id of from state
+      # @param to [String, Fixnum] the name or id of to state
       # @param symbol [String] the symbol of transition
       # @return [Array] from state's transitions
       def create_transition(from, to, symbol)
-        raise NoStateError if !has_state?(from) || !has_state?(to)
+        raise Automata::NoStateError if !has_state?(from) || !has_state?(to)
         from_state = find_state(from)
         to_state   = find_state(to)
 
@@ -66,20 +66,26 @@ module Mnlp
       end
 
       def recognize!(symbol)
-        if state_id = current_state.transit(symbol)
-          @current_state = find_state(state_id)
-          if current_state.final?
-            @recognize = true
-            return
-          end
-        else
-          @current_state = states.first
+        set_or_rollback_state(symbol)
+
+        if current_state.final?
+          @recognize = true
+          return
         end
 
         @recognize = false
       end
 
       private
+
+      def set_or_rollback_state(symbol)
+        @current_state =
+          if state_id = current_state.transit(symbol)
+            find_state(state_id)
+          else
+            states.first
+          end
+      end
 
       def defaults
         { number_of_states: 1 }
