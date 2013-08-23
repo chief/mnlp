@@ -65,7 +65,7 @@ module Mnlp
 
       # @todo Move some logic to State class
       def recognize!(symbol)
-        if alphabet.include?(symbol) && state_transition_table[current_state.id].keys.include?(symbol)
+        if current_state.recognize_input?(symbol)
           @current_state = state_transition_table[current_state.id][symbol]
           if current_state.final?
             #puts "RECOGNIZE #@recognition"

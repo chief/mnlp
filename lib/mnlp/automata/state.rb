@@ -42,6 +42,10 @@ module Mnlp
         end
       end
 
+      def recognize_input?(symbol)
+        alphabet.include? symbol
+      end
+
       private
 
       def set_name(name)

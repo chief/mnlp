@@ -105,6 +105,24 @@ describe Mnlp::Automata::State do
     end
   end
 
+  describe "#recognize_input?" do
+    before do
+      create_transitions
+    end
+
+    context "when input inside alphabet" do
+      it "recognizes input" do
+        expect(subject).to be_recognize_input("A")
+      end
+    end
+
+    context "when input different from alphabet" do
+      it "does not recognizes input" do
+        expect(subject).not_to be_recognize_input("X")
+      end
+    end
+  end
+
   # Helper methods
   def create_transitions
     subject.create_transition another_state, "A"
