@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Mnlp::Automata::Fsa do
   describe "#initialize" do
-    it "has the initial state q0" do
+    it "has one state (the initial state)" do
       expect(subject).to have(1).states
     end
 
@@ -10,7 +10,7 @@ describe Mnlp::Automata::Fsa do
       expect(subject.current_state.id).to eq 0
     end
 
-    it "does not have input alphabet" do
+    it "does not have any alphabet" do
       expect(subject.alphabet).to be_empty
     end
 
@@ -38,26 +38,22 @@ describe Mnlp::Automata::Fsa do
 
     context "when state already exists" do
       it "raises StateAlreadyExistsError" do
+        pending
       end
     end
   end
 
-  context "when adding multiple transitions" do
+  describe "#alphabet" do
     before do
-      4.times { subject.add_state }
-
-      subject.create_transition "q0", "q1", "b"
-      subject.create_transition "q1", "q2", "l"
-      subject.create_transition "q2", "q3", "o"
-      subject.create_transition "q3", "q4", "b"
+      create_transitions
     end
 
     it "has valid alphabet" do
-      expect(subject.alphabet).to eq Set.new(["b", "l", "o"])
+      expect(subject.alphabet).to eq Set.new(["b", "a", "!"])
     end
   end
 
-  context "when finding states" do
+  describe "#has_state?" do
     before do
       subject.add_state
     end
@@ -71,47 +67,55 @@ describe Mnlp::Automata::Fsa do
     end
   end
 
-  context "when adding a transition" do
+  describe "#create_transition" do
     before do
       2.times { subject.add_state }
     end
 
     context "and from state does not exist" do
       it "raises error" do
-        expect { subject.create_transition("q10", "q1", "T") }.to raise_error(Mnlp::Automata::NoStateError)
+        expect { subject.create_transition("q10", "q1", "T") }.to(
+          raise_error(Mnlp::Automata::NoStateError))
       end
     end
 
     context "and to state does not exist" do
       it "raises error" do
-        expect { subject.create_transition("q0", "q10", "T") }.to raise_error(Mnlp::Automata::NoStateError)
+        expect { subject.create_transition("q0", "q10", "T") }.to(
+          raise_error(Mnlp::Automata::NoStateError))
       end
     end
   end
 
   describe "#state_transition_table" do
     before do
-      3.times { subject.add_state }
-
-      subject.create_transition "q0", "q1", "b"
-      subject.create_transition "q1", "q2", "a"
-      subject.create_transition "q2", "q2", "a"
-      subject.create_transition "q2", "q3", "!"
+      create_transitions
     end
 
     it "has a state transition table" do
-      expect(subject.state_transition_table).
-        to eq({ 0 => {"b"=>1},
-                1 => {"a"=>2},
-                2 => {"a"=>2, "!"=>3},
-                3 => {} })
-
+      expect(subject.state_transition_table).to(
+        eq({ 0 => {"b"=>1},
+             1 => {"a"=>2},
+             2 => {"a"=>2, "!"=>3},
+             3 => {} }))
     end
   end
 
   describe "#find_state" do
+    let(:state) { subject.states.first }
+
     it "returns the first state by name" do
-      pending("think better spec")
+      expect(subject.find_state("q0")).to eq state
+    end
+
+    it "returns the first state by id" do
+      expect(subject.find_state(0)).to eq state
+    end
+
+    context "when state does not exist" do
+      it "returns nil" do
+        expect(subject.find_state(999)).not_to be
+      end
     end
   end
 
@@ -119,31 +123,45 @@ describe Mnlp::Automata::Fsa do
     before do
       2.times { subject.add_state }
 
-      subject.create_transition "q0", "q1", "c"
-      subject.create_transition "q1", "q2", "h"
+      subject.create_transition 0, 1, "c"
+      subject.create_transition 1, 2, "h"
+      subject.recognize!("c")
     end
 
     context "when a symbol is correct for the current_state" do
       it "proceeds to next state" do
-        subject.recognize!("c")
         expect(subject.current_state.id).to eq 1
       end
     end
 
     context "when two symbols are correct" do
-      it "finishes recognition for a 3 state automaton" do
-        subject.recognize!("c")
+      before do
         subject.recognize!("h")
+      end
+
+      it "finishes recognition for a 3 state automaton" do
         expect(subject.current_state.id).to eq 2
       end
     end
 
     context "when first symbol is accepted but not the second" do
-      it "reverts to q0 state" do
-        subject.recognize!("c")
+      before do
         subject.recognize!("d")
+      end
+
+      it "reverts to q0 state" do
         expect(subject.current_state.id).to eq 0
       end
     end
+  end
+
+  # Helper methods
+  def create_transitions
+    3.times { subject.add_state }
+
+    subject.create_transition 0, 1, "b"
+    subject.create_transition 1, 2, "a"
+    subject.create_transition 2, 2, "a"
+    subject.create_transition 2, 3, "!"
   end
 end
