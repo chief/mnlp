@@ -11,8 +11,8 @@ module Mnlp
       #   id is actually the size of {Fsa} states.
       # @option options [String] :name or the whole name of the state
       def initialize(options = {})
-        @id     = options[:id] || 0
-        @name   = set_name(options[:name])
+        @id          = options[:id] || 0
+        @name        = set_name(options[:name])
         @transitions = []
       end
 
@@ -31,6 +31,7 @@ module Mnlp
         transitions.map(&:symbol).to_set
       end
 
+      # Whether state has transitions or not
       def final?
         transitions.empty?
       end
@@ -46,6 +47,9 @@ module Mnlp
         alphabet.include? symbol
       end
 
+      # Transits to another state
+      # @param symbol [String] the trigger symbol
+      # @return [Fixnum] the id of state
       def transit(symbol)
         transition_table[symbol]
       end
@@ -57,7 +61,7 @@ module Mnlp
       end
 
       def default_name
-        "q" + id.to_s
+        "q#{id}"
       end
     end
   end
