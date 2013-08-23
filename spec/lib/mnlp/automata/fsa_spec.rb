@@ -6,8 +6,8 @@ describe Mnlp::Automata::Fsa do
       expect(subject).to have(1).states
     end
 
-    it "has a current_state of 0" do
-      expect(subject.current_state).to eq 0
+    it "has a current_state with id 0" do
+      expect(subject.current_state.id).to eq 0
     end
 
     it "does not have input alphabet" do
@@ -33,7 +33,12 @@ describe Mnlp::Automata::Fsa do
 
     it "has states with default names" do
       expect(subject.states.first.name).to eq "q0"
-      expect(subject.states.last.name).to eq "q1"
+      expect(subject.states.last.name).to  eq "q1"
+    end
+
+    context "when state already exists" do
+      it "raises StateAlreadyExistsError" do
+      end
     end
   end
 

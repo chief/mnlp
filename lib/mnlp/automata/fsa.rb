@@ -14,7 +14,7 @@ module Mnlp
         options = defaults.merge(options)
         @states      = []
         options[:number_of_states].times { add_state }
-        @current_state = 0
+        @current_state = states.first
 
         # @todo Remove this attribute
         @recognize     = ""
@@ -65,15 +65,15 @@ module Mnlp
 
       # @todo Move some logic to State class
       def recognize!(symbol)
-        if alphabet.include?(symbol) && state_transition_table[current_state].keys.include?(symbol)
-          @current_state = state_transition_table[current_state][symbol]
-          if states[current_state].final?
+        if alphabet.include?(symbol) && state_transition_table[current_state.id].keys.include?(symbol)
+          @current_state = state_transition_table[current_state.id][symbol]
+          if current_state.final?
             #puts "RECOGNIZE #@recognition"
             @recognize = true
             return
           end
         else
-          @current_state = 0
+          @current_state = states.first
         end
 
         @recognize = false
