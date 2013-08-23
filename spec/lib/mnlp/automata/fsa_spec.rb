@@ -35,12 +35,6 @@ describe Mnlp::Automata::Fsa do
       expect(subject.states.first.name).to eq "q0"
       expect(subject.states.last.name).to  eq "q1"
     end
-
-    context "when state already exists" do
-      it "raises StateAlreadyExistsError" do
-        pending
-      end
-    end
   end
 
   describe "#alphabet" do
