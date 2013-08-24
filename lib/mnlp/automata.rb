@@ -23,8 +23,6 @@ module Mnlp
       string.each_char do |char|
         machine.recognize!(char)
       end
-
-      machine.recognize
     end
   end
 end

@@ -5,7 +5,7 @@ module Mnlp
   module Automata
     class Fsa
 
-      attr_reader :states, :current_state, :recognize
+      attr_reader :states, :current_state
 
       # @param options [Hash]
       # @option options [Fixnum] :number_of_states The initial number of states.
@@ -15,9 +15,6 @@ module Mnlp
         @states      = []
         options[:number_of_states].times { add_state }
         @current_state = states.first
-
-        # @todo Remove this attribute
-        @recognize     = ""
       end
 
       # Adds a new {State}. At the moment there is no way to delete states from
@@ -69,11 +66,10 @@ module Mnlp
         set_or_rollback_current_state(symbol)
 
         if current_state.final?
-          @recognize = true
-          return
+          return true
         end
 
-        @recognize = false
+        false
       end
 
       private
@@ -81,6 +77,7 @@ module Mnlp
       def set_or_rollback_current_state(symbol)
         @current_state =
           if state_id = current_state.transit(symbol)
+            puts "symbol #{symbol} recognized, I will go to #{state_id} now"
             find_state(state_id)
           else
             states.first
