@@ -5,15 +5,18 @@ module Mnlp
     class State
 
       attr_reader :name, :transitions, :id
+      attr_accessor :final
 
       # @param  options [Hash] initialization options
       # @option options [Fixnum] :id the id of state. Current implementation of
       #   id is actually the size of {Fsa} states.
       # @option options [String] :name or the whole name of the state
       def initialize(options = {})
+        options      = defaults.merge(options)
         @id          = options[:id] || 0
         @name        = set_name(options[:name])
         @transitions = []
+        @final       = options[:final]
       end
 
       # Creates a new transition
@@ -33,7 +36,7 @@ module Mnlp
 
       # Whether state has transitions or not
       def final?
-        transitions.empty?
+        transitions.empty? || final
       end
 
       def transition_table
@@ -55,6 +58,10 @@ module Mnlp
       end
 
       private
+
+      def defaults
+        { id: 0, final: false }
+      end
 
       def set_name(name)
         name.present? ? name : default_name

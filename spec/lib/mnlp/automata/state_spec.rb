@@ -55,8 +55,18 @@ describe Mnlp::Automata::State do
         create_transitions
       end
 
-      it "is not a final state" do
-        expect(subject).not_to be_final
+      context "and final is false then" do
+        it "is not a final state" do
+          subject.final = false
+          expect(subject).not_to be_final
+        end
+      end
+
+      context "and final is true then" do
+        it "is a final state" do
+          subject.final = true
+          expect(subject).to be_final
+        end
       end
     end
   end
