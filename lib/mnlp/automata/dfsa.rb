@@ -3,7 +3,7 @@ require 'active_support/all'
 
 module Mnlp
   module Automata
-    class Fsa
+    class Dfsa
 
       attr_reader :states, :current_state
 

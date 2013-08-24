@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Mnlp::Automata::Fsa do
+describe Mnlp::Automata::Dfsa do
   describe "#initialize" do
     it "has one state (the initial state)" do
       expect(subject).to have(1).states
@@ -16,7 +16,7 @@ describe Mnlp::Automata::Fsa do
 
     context "when passing a number of states" do
       it "has states equals to the number passed" do
-        machine = Mnlp::Automata::Fsa.new(number_of_states: 10)
+        machine = Mnlp::Automata::Dfsa.new(number_of_states: 10)
         expect(machine).to have(10).states
       end
     end
