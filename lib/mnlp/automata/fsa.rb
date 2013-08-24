@@ -77,7 +77,6 @@ module Mnlp
       def set_or_rollback_current_state(symbol)
         @current_state =
           if state_id = current_state.transit(symbol)
-            puts "symbol #{symbol} recognized, I will go to #{state_id} now"
             find_state(state_id)
           else
             states.first
