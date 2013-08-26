@@ -50,11 +50,15 @@ module Mnlp
       # @param symbol [String] the symbol of transition
       # @return [Array] from state's transitions
       def create_transition(from, to, symbol)
-        raise Automata::NoStateError if !has_state?(from) || !has_state?(to)
+        raise Automata::Exceptions::NoStateError if !has_state?(from) || !has_state?(to)
         from_state = find_state(from)
         to_state   = find_state(to)
 
         from_state.create_transition(to_state, symbol)
+      end
+
+      def transitions
+        states.map(&:transitions).flatten
       end
 
       def state_transition_table

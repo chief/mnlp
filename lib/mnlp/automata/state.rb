@@ -24,7 +24,7 @@ module Mnlp
       # @param symbol [String] the symbol to trigger the move
       def create_transition(state, symbol)
         transition = Transition.new(state, symbol)
-        raise DuplicateTransitionError if transitions.include? transition
+        raise Automata::Exceptions::DuplicateTransitionError if transitions.include? transition
 
         @transitions << transition
       end

@@ -66,17 +66,35 @@ describe Mnlp::Automata::Dfsa do
       2.times { subject.add_state }
     end
 
-    context "and from state does not exist" do
+    context "when from state does not exist" do
       it "raises error" do
         expect { subject.create_transition("q10", "q1", "T") }.to(
-          raise_error(Mnlp::Automata::NoStateError))
+          raise_error(Mnlp::Automata::Exceptions::NoStateError))
       end
     end
 
-    context "and to state does not exist" do
+    context "when to state does not exist" do
       it "raises error" do
         expect { subject.create_transition("q0", "q10", "T") }.to(
-          raise_error(Mnlp::Automata::NoStateError))
+          raise_error(Mnlp::Automata::Exceptions::NoStateError))
+      end
+    end
+
+    it "creates a new transition" do
+      expect { subject.create_transition(0, 1, "a") }.to change{
+        subject.transitions.size}.by(1)
+
+    end
+
+    context "when there is the same symbol to another state" do
+      before do
+        subject.add_state
+        subject.create_transition 0, 1, "A"
+      end
+
+      it "raises an exception" do
+        expect { subject.create_transition(0, 2, "A") }.to raise_error(
+          Mnlp::Automata::Exceptions::InvalidTransitionError)
       end
     end
   end

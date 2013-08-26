@@ -1,7 +1,8 @@
+# coding: utf-8
 module Mnlp
   module Automata
     module Exceptions
-      class DuplicateTransitionError < StandardError
+      class InvalidTransitionError < StandardError
       end
     end
   end

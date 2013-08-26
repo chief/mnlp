@@ -87,7 +87,7 @@ describe Mnlp::Automata::State do
     context "when exactly the same transition occurs" do
       it "raises DuplicateTransitionError" do
         expect { subject.create_transition(another_state, "A") }.
-          to raise_error(Mnlp::Automata::DuplicateTransitionError)
+          to raise_error(Mnlp::Automata::Exceptions::DuplicateTransitionError)
       end
     end
   end

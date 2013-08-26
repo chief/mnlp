@@ -4,6 +4,7 @@ require "mnlp/automata/dfsa"
 require "mnlp/automata/state"
 require "mnlp/automata/exceptions/no_state_error"
 require "mnlp/automata/exceptions/duplicate_transition_error"
+require "mnlp/automata/exceptions/invalid_transition_error"
 require "mnlp/automata/state"
 require "mnlp/automata/transition"
 
