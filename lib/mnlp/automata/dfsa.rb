@@ -3,6 +3,8 @@ require 'active_support/all'
 
 module Mnlp
   module Automata
+    # Deterministic Finite State Automaton
+    # @see http://en.wikipedia.org/wiki/Deterministic_finite_state_machine
     class Dfsa
 
       attr_reader :states, :current_state
