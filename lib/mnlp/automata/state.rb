@@ -25,6 +25,7 @@ module Mnlp
       def create_transition(state, symbol)
         transition = Transition.new(state, symbol)
         raise Automata::Exceptions::DuplicateTransitionError if transitions.include? transition
+        raise Automata::Exceptions::InvalidTransitionError if alphabet.include? symbol
 
         @transitions << transition
       end
