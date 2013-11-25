@@ -10,7 +10,7 @@ module Mnlp
     # @todo Add pattern recognized
     class Dfsa
 
-      attr_reader :states, :current_state
+      attr_reader :states, :current_state, :recognized_input
 
       # @param options [Hash]
       # @option options [Fixnum] :number_of_states The initial number of states.
@@ -20,6 +20,7 @@ module Mnlp
         @states      = []
         options[:number_of_states].times { add_state }
         @current_state = states.first
+        @recognized_input = []
       end
 
       # Adds a new {State}. At the moment there is no way to delete states from
@@ -88,8 +89,10 @@ module Mnlp
       def set_or_rollback_current_state(symbol)
         @current_state =
           if state_id = current_state.transit(symbol)
+            @recognized_input << symbol
             find_state(state_id)
           else
+            @recognized_input = []
             states.first
           end
       end

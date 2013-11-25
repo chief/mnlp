@@ -16,6 +16,10 @@ describe Mnlp::Automata::Dfsa do
       expect(subject.alphabet).to be_empty
     end
 
+    it "does not have any recognized_input" do
+      expect(subject.recognized_input).to be_empty
+    end
+
     context "when passing a number of states" do
       it "has states equals to the number passed" do
         machine = Mnlp::Automata::Dfsa.new(number_of_states: 10)
@@ -162,6 +166,20 @@ describe Mnlp::Automata::Dfsa do
       it "reverts to q0 state" do
         expect(subject.current_state.id).to eq 0
       end
+    end
+  end
+
+  describe "#recognized_input" do
+    before do
+      create_transitions # baa*! pattern
+
+      %w{b a a a a a a !}.each do |symbol|
+        subject.recognize!(symbol)
+      end
+    end
+
+    it "can reports back the recognized input" do
+      expect(subject.recognized_input).to eq %w{ b a a a a a a ! }
     end
   end
 
