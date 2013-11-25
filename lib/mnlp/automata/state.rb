@@ -5,27 +5,30 @@ module Mnlp
     class State
 
       attr_reader :name, :transitions, :id
-      attr_accessor :final
+      attr_accessor :final, :deterministic
 
       # @param  options [Hash] initialization options
       # @option options [Fixnum] :id the id of state. Current implementation of
-      #   id is actually the size of {Fsa} states.
+      #   id is actually the size of the Automaton states.
       # @option options [String] :name or the whole name of the state
       def initialize(options = {})
-        options      = defaults.merge(options)
-        @id          = options[:id] || 0
-        @name        = set_name(options[:name])
-        @transitions = []
-        @final       = options[:final]
+        options        = defaults.merge(options)
+        @id            = options[:id] || 0
+        @name          = set_name(options[:name])
+        @transitions   = []
+        @final         = options[:final]
+        @deterministic = options[:deterministic]
+        @should_visit  = {}
       end
 
       # Creates a new transition
+      #
       # @param state  [Automata::State] the state to move to
       # @param symbol [String] the symbol to trigger the move
       def create_transition(state, symbol)
         transition = Transition.new(state, symbol)
         raise Automata::Exceptions::DuplicateTransitionError if transitions.include? transition
-        raise Automata::Exceptions::InvalidTransitionError if alphabet.include? symbol
+        check_determinism(symbol)
 
         @transitions << transition
       end
@@ -42,7 +45,8 @@ module Mnlp
 
       def transition_table
         transitions.reduce({}) do |acc, val|
-          acc[val.symbol] = val.state.id
+          acc[val.symbol] ||= []
+          acc[val.symbol].push val.state.id
           acc
         end
       end
@@ -52,16 +56,32 @@ module Mnlp
       end
 
       # Transits to another state
+      #
       # @param symbol [String] the trigger symbol
       # @return [Fixnum] the id of state
       def transit(symbol)
-        transition_table[symbol]
+        if transition_table[symbol]
+          if deterministic
+            transition_table[symbol].first
+          else
+            @should_visit[symbol] ||= transition_table[symbol]
+
+          end
+        else
+          nil
+        end
       end
 
       private
 
       def defaults
-        { id: 0, final: false }
+        { id: 0, final: false, deterministic: true }
+      end
+
+      def check_determinism(symbol)
+        if alphabet.include?(symbol) && deterministic
+          raise Automata::Exceptions::InvalidTransitionError
+        end
       end
 
       def set_name(name)
