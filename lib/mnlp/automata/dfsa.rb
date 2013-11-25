@@ -4,6 +4,7 @@ require 'active_support/all'
 module Mnlp
   module Automata
     # Deterministic Finite State Automaton
+    #
     # @see http://en.wikipedia.org/wiki/Deterministic_finite_state_machine
     class Dfsa
 
@@ -32,6 +33,7 @@ module Mnlp
       end
 
       # Finds a state by its name or id
+      #
       # @param name_or_id [String, Fixnum] the name or id of the state
       # @return [Automata::State] or nil
       def find_state(name_or_id)
@@ -45,6 +47,7 @@ module Mnlp
       end
 
       # Delegates transition creation to {Automata::State} class
+      #
       # @param from [String, Fixnum] the name or id of from state
       # @param to [String, Fixnum] the name or id of to state
       # @param symbol [String] the symbol of transition
