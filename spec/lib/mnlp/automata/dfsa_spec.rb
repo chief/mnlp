@@ -75,7 +75,7 @@ describe Mnlp::Automata::Dfsa do
       end
     end
 
-    context "when to state does not exist" do
+    context "when destination state does not exist" do
       it "raises error" do
         expect { subject.create_transition("q0", "q10", "T") }.to(
           raise_error(Mnlp::Automata::Exceptions::NoStateError))
