@@ -6,6 +6,8 @@ module Mnlp
     # Deterministic Finite State Automaton
     #
     # @see http://en.wikipedia.org/wiki/Deterministic_finite_state_machine
+    #
+    # @todo Add pattern recognized
     class Dfsa
 
       attr_reader :states, :current_state
