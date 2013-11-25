@@ -39,6 +39,8 @@ module Mnlp
       end
 
       # Whether state has transitions or not
+      #
+      # @return [Boolean]
       def final?
         transitions.empty? || final
       end
