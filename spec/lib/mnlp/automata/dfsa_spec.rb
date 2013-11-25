@@ -107,11 +107,7 @@ describe Mnlp::Automata::Dfsa do
     end
 
     it "has a state transition table" do
-      expect(subject.state_transition_table).to(
-        eq({ 0 => {"b"=>1},
-             1 => {"a"=>2},
-             2 => {"a"=>2, "!"=>3},
-             3 => {} }))
+      expect(subject.state_transition_table[0]).to eq({"b" => [1]})
     end
   end
 
