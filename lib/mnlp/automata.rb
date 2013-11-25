@@ -1,6 +1,7 @@
 # coding: utf-8
 
 require "mnlp/automata/dfsa"
+require "mnlp/automata/nfsa"
 require "mnlp/automata/state"
 require "mnlp/automata/exceptions/no_state_error"
 require "mnlp/automata/exceptions/duplicate_transition_error"
