@@ -8,9 +8,10 @@ module Mnlp
     # @see http://en.wikipedia.org/wiki/Deterministic_finite_state_machine
     #
     # @todo Add pattern recognized
+    # @todo Add reset to machine
     class Dfsa
 
-      attr_reader :states, :current_state, :recognized_input
+      attr_reader :states, :current_state, :current_input, :recognized_patterns
 
       # @param options [Hash]
       # @option options [Fixnum] :number_of_states The initial number of states.
@@ -20,7 +21,8 @@ module Mnlp
         @states      = []
         options[:number_of_states].times { add_state }
         @current_state = states.first
-        @recognized_input = []
+        @current_input = []
+        @recognized_patterns = []
       end
 
       # Adds a new {State}. At the moment there is no way to delete states from
@@ -78,6 +80,7 @@ module Mnlp
         set_or_rollback_current_state(symbol)
 
         if current_state.final?
+          recognized_patterns.push(current_input.join)
           return true
         end
 
@@ -89,10 +92,10 @@ module Mnlp
       def set_or_rollback_current_state(symbol)
         @current_state =
           if state_id = current_state.transit(symbol)
-            @recognized_input << symbol
+            @current_input << symbol
             find_state(state_id)
           else
-            @recognized_input = []
+            @current_input = []
             states.first
           end
       end

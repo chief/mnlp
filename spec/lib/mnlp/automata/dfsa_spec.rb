@@ -16,8 +16,8 @@ describe Mnlp::Automata::Dfsa do
       expect(subject.alphabet).to be_empty
     end
 
-    it "does not have any recognized_input" do
-      expect(subject.recognized_input).to be_empty
+    it "does not have any current_input" do
+      expect(subject.current_input).to be_empty
     end
 
     context "when passing a number of states" do
@@ -167,9 +167,19 @@ describe Mnlp::Automata::Dfsa do
         expect(subject.current_state.id).to eq 0
       end
     end
+
+    context "when recognition is completed" do
+      before do
+        subject.recognize!("h")
+      end
+
+      it "adds current input to recognized_patterns" do
+        expect(subject.recognized_patterns).to eq(["ch"])
+      end
+    end
   end
 
-  describe "#recognized_input" do
+  describe "#current_input" do
     before do
       create_transitions # baa*! pattern
 
@@ -179,7 +189,7 @@ describe Mnlp::Automata::Dfsa do
     end
 
     it "can reports back the recognized input" do
-      expect(subject.recognized_input).to eq %w{ b a a a a a a ! }
+      expect(subject.current_input).to eq %w{ b a a a a a a ! }
     end
   end
 
