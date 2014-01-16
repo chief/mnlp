@@ -15,21 +15,11 @@ It is an effort to do some Nlp in the domain of [Skroutz](http://www.skroutz.gr)
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-    gem 'mnlp'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install mnlp
+(coming soon)
 
 ## Usage
 
-TODO: Write usage instructions here
+(coming soon)
 
 ## Contributing
 
