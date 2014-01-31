@@ -5,7 +5,7 @@ module Mnlp
     class State
 
       attr_reader :name, :transitions, :id
-      attr_accessor :final, :deterministic
+      attr_accessor :final
 
       # @param  options [Hash] initialization options
       # @option options [Fixnum] :id the id of state. Current implementation of
@@ -17,7 +17,6 @@ module Mnlp
         @name          = set_name(options[:name])
         @transitions   = []
         @final         = options[:final]
-        @deterministic = options[:deterministic]
         @should_visit  = {}
       end
 
@@ -63,12 +62,7 @@ module Mnlp
       # @return [Fixnum] the id of state
       def transit(symbol)
         if transition_table[symbol]
-          if deterministic
-            transition_table[symbol].first
-          else
-            @should_visit[symbol] ||= transition_table[symbol]
-
-          end
+          transition_table[symbol].first
         else
           nil
         end
@@ -77,11 +71,11 @@ module Mnlp
       private
 
       def defaults
-        { id: 0, final: false, deterministic: true }
+        { id: 0, final: false }
       end
 
       def check_determinism(symbol)
-        if alphabet.include?(symbol) && deterministic
+        if alphabet.include?(symbol)
           raise Automata::Exceptions::InvalidTransitionError
         end
       end

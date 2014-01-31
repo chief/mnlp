@@ -113,20 +113,6 @@ describe Mnlp::Automata::State do
           {"A"=>[1], "B"=>[1], "C"=>[1]}
         )
     end
-
-    context "when deterministic is set to false" do
-      let(:some_other_state) { Mnlp::Automata::State.new(id: 2) }
-
-      before do
-        subject.deterministic = false
-        subject.create_transition some_other_state, "A"
-      end
-
-      it "has transition table that includes all 'A' transitions" do
-        expect(subject.transition_table["A"]).to eq(
-          [1,2])
-      end
-    end
   end
 
   describe "#recognize_input?" do
