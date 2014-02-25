@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Mnlp::Automata::State do
   let(:another_state) { Mnlp::Automata::State.new(id: 1) }
 
-  describe "#initialize" do
+  describe ".initialize" do
     context "when nothing is passed" do
       it "has a default name" do
         expect(subject.name).to eq "q0"
