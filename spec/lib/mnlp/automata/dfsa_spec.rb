@@ -3,7 +3,7 @@
 require "spec_helper"
 
 describe Mnlp::Automata::Dfsa do
-  describe "#initialize" do
+  describe ".initialize" do
     it "has one state (the initial state)" do
       expect(subject).to have(1).states
     end
